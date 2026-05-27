@@ -1,0 +1,199 @@
+produto: "cambio_spot"
+nome_completo: "Câmbio Spot / Transferências Internacionais"
+parceiro: "Ebury Bank"
+versao: "1.0"
+data_criacao: "2026-05-27"
+
+# ═══════════════════════════════════════════════════════
+# CRITÉRIOS FIRMOGRÁFICOS (compõem 30 pts do score)
+# ═══════════════════════════════════════════════════════
+
+cnaes_alta_afinidade:
+  - "4611"   # Representantes comerciais e agentes do comércio
+  - "4632"   # Comércio atacadista de produtos alimentícios
+  - "4635"   # Comércio atacadista de bebidas
+  - "4636"   # Comércio atacadista de produtos de fumo
+  - "4637"   # Comércio atacadista especializado em produtos alimentícios
+  - "4639"   # Comércio atacadista de produtos alimentícios em geral
+  - "4644"   # Comércio atacadista de medicamentos
+  - "4646"   # Comércio atacadista de cosméticos
+  - "4647"   # Comércio atacadista de artigos de escritório
+  - "4649"   # Comércio atacadista de equipamentos
+  - "4652"   # Comércio atacadista de componentes eletrônicos
+  - "4661"   # Comércio atacadista de máquinas para agricultura
+  - "4662"   # Comércio atacadista de máquinas para indústria
+  - "4664"   # Comércio atacadista de máquinas para construção
+  - "4665"   # Comércio atacadista de máquinas para escritório
+  - "4669"   # Comércio atacadista de outras máquinas
+  - "4672"   # Comércio atacadista de ferragens
+  - "4673"   # Comércio atacadista de material de construção
+  - "4679"   # Comércio atacadista especializado
+  - "4684"   # Comércio atacadista de produtos químicos
+  - "4685"   # Comércio atacadista de produtos siderúrgicos
+  - "6201"   # Desenvolvimento de programas de computador sob encomenda
+  - "6202"   # Desenvolvimento e licenciamento de software customizável
+  - "6203"   # Desenvolvimento e licenciamento de software não-customizável
+  - "6204"   # Consultoria em tecnologia da informação
+  - "6209"   # Suporte técnico em TI
+  - "6311"   # Tratamento de dados e hospedagem
+  - "6319"   # Portais, provedores de conteúdo
+  - "6391"   # Agências de notícias
+
+cnaes_media_afinidade:
+  - "1031"   # Fabricação de conservas de frutas
+  - "1041"   # Fabricação de óleos vegetais
+  - "1051"   # Preparação do leite
+  - "1071"   # Fabricação e refino de açúcar
+  - "1091"   # Fabricação de produtos de panificação industrial
+  - "1311"   # Preparação e fiação de fibras de algodão
+  - "1411"   # Confecção de roupas íntimas
+  - "1412"   # Confecção de peças do vestuário
+  - "1531"   # Fabricação de calçados de couro
+  - "2011"   # Fabricação de cloro e álcalis
+  - "2071"   # Fabricação de tintas
+  - "2091"   # Fabricação de adesivos
+  - "2092"   # Fabricação de explosivos
+  - "2110"   # Fabricação de produtos farmoquímicos
+  - "2121"   # Fabricação de medicamentos para uso humano
+  - "2511"   # Fabricação de estruturas metálicas
+  - "2521"   # Fabricação de tanques industriais
+  - "2811"   # Fabricação de motores
+  - "2814"   # Fabricação de máquinas e equipamentos de uso geral
+  - "2829"   # Fabricação de máquinas-ferramenta
+  - "2911"   # Fabricação de automóveis
+  - "3041"   # Fabricação de aeronaves
+  - "5811"   # Edição de livros
+  - "5821"   # Edição integrada de livros
+  - "7020"   # Atividades de consultoria em gestão empresarial
+
+faturamento_minimo_brl: 10000000        # R$ 10M — abaixo disso não vale o esforço
+faturamento_ideal_brl: 80000000         # R$ 80M — sweet spot do produto
+faturamento_maximo_brl: 500000000       # R$ 500M — acima é corporate de banco grande
+numero_funcionarios_minimo: 20
+
+# ═══════════════════════════════════════════════════════
+# GATILHOS DE COMPRA (compõem 50 pts do score)
+# Pesos somam 1.0 — cada gatilho contribui peso × confidence × 50
+# ═══════════════════════════════════════════════════════
+
+gatilhos:
+  - id: "pagamento_recorrente_fornecedor_exterior"
+    descricao: "Empresa menciona pagamentos recorrentes a fornecedores internacionais (importação contínua)"
+    keywords:
+      - "fornecedor exterior"
+      - "fornecedor internacional"
+      - "importação"
+      - "import"
+      - "pagamento internacional"
+      - "remessa internacional"
+      - "TED internacional"
+      - "wire transfer"
+    fontes_deteccao: ["website", "linkedin_post", "noticia"]
+    peso: 0.25
+
+  - id: "recebimento_moeda_estrangeira"
+    descricao: "Empresa recebe receita em moeda estrangeira (clientes/contratos internacionais)"
+    keywords:
+      - "receita USD"
+      - "receita em dólar"
+      - "clientes no exterior"
+      - "export"
+      - "exportação"
+      - "international clients"
+      - "global clients"
+      - "receita internacional"
+    fontes_deteccao: ["website", "linkedin_post", "linkedin_perfil"]
+    peso: 0.25
+
+  - id: "expansao_internacional"
+    descricao: "Empresa anuncia abertura de operação, escritório ou subsidiária no exterior"
+    keywords:
+      - "expansão internacional"
+      - "abertura de escritório"
+      - "subsidiária no exterior"
+      - "international expansion"
+      - "novo mercado"
+      - "matriz no exterior"
+      - "global expansion"
+    fontes_deteccao: ["noticia", "linkedin_post"]
+    peso: 0.20
+
+  - id: "insatisfacao_banco_cambio"
+    descricao: "Decisor ou empresa demonstra insatisfação com banco/spread atual de câmbio"
+    keywords:
+      - "spread alto"
+      - "câmbio caro"
+      - "taxa abusiva"
+      - "demora TED"
+      - "TED internacional lenta"
+      - "transparência câmbio"
+    fontes_deteccao: ["linkedin_post", "linkedin_perfil"]
+    peso: 0.15
+
+  - id: "contratacao_executivo_financeiro"
+    descricao: "Empresa contratou recentemente CFO, Tesoureiro ou Diretor Financeiro novo"
+    keywords:
+      - "novo CFO"
+      - "new CFO"
+      - "incoming CFO"
+      - "joined as CFO"
+      - "novo tesoureiro"
+      - "novo diretor financeiro"
+      - "joined as treasurer"
+    fontes_deteccao: ["linkedin_post", "linkedin_perfil", "noticia"]
+    peso: 0.15
+
+# ═══════════════════════════════════════════════════════
+# SUB-PERSONAS (input do Prompt B)
+# ═══════════════════════════════════════════════════════
+
+sub_personas:
+  - id: "importador_recorrente"
+    descricao: "Paga fornecedor no exterior mensalmente. Spread opaco no banco, TED cara, demora de 3 dias úteis."
+    indicadores_cnae: ["4611", "4632", "4635", "4639", "4644", "4646", "4649", "4652", "4661", "4662", "4664", "4665", "4669", "4672", "4673", "4679", "4684", "4685"]
+    foco_produto: "transparência de spread + velocidade de execução"
+
+  - id: "tech_servicos_receita_usd"
+    descricao: "Empresa de tecnologia/serviços recebendo de clientes no exterior, perde na conversão"
+    indicadores_cnae: ["6201", "6202", "6203", "6204", "6209", "6311", "6319"]
+    foco_produto: "contas multi-moeda + timing de conversão"
+
+  - id: "socio_remessa_lucro"
+    descricao: "Sócio precisa remeter regularmente lucros para conta estrangeira pessoal"
+    indicadores_cnae: ["7020", "6491"]
+    foco_produto: "agilidade, compliance e custo de remessa"
+
+# ═══════════════════════════════════════════════════════
+# CRITÉRIOS DESQUALIFICADORES (score = 0)
+# ═══════════════════════════════════════════════════════
+
+criterios_desqualificadores:
+  - tipo: "faturamento_abaixo_minimo"
+    razao: "Volume de câmbio não justifica o serviço para empresas <R$ 10M"
+
+  - tipo: "headcount_abaixo_minimo"
+    razao: "Operação muito pequena para suportar tesouraria internacional"
+
+  - tipo: "setor_excluido"
+    cnaes: ["8411", "8412", "8413", "8414", "8421", "8422", "8423", "8424", "8425", "8430"]  # Administração pública
+    razao: "Setor público não é ICP da Plancorp"
+
+# ═══════════════════════════════════════════════════════
+# CROSS-SELL CANDIDATES
+# ═══════════════════════════════════════════════════════
+
+cross_sell_candidatos:
+  - hedge_cambial
+  - acc_ace
+  - finimp
+
+# ═══════════════════════════════════════════════════════
+# ESCALADA 3 FRENTES
+# ═══════════════════════════════════════════════════════
+
+gatilhos_escalada_3_frentes:
+  investment_banking:
+    - "Volume anual de câmbio acima de USD 50M (candidato a hedge estruturado)"
+  wealth_management:
+    - "Sócio com remessa pessoal recorrente para conta externa"
+    - "Operação familiar com perfil de family office"

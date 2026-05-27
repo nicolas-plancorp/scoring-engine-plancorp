@@ -1,0 +1,177 @@
+produto: "energia_ml"
+nome_completo: "Mercado Livre de Energia"
+parceiro: "BTG Pactual"
+versao: "1.0"
+data_criacao: "2026-05-27"
+
+# Mercado Livre de Energia: empresas com consumo > 500 kW de demanda contratada
+# podem comprar energia diretamente de geradores/comercializadores
+
+cnaes_alta_afinidade:
+  - "1011"   # Frigoríficos (alto consumo energético)
+  - "1012"   # Abate de suínos
+  - "1013"   # Fabricação de carnes
+  - "1041"   # Fabricação de óleos vegetais
+  - "1052"   # Laticínios
+  - "1071"   # Fabricação de açúcar
+  - "1091"   # Panificação industrial
+  - "1311"   # Preparação e fiação de fibras
+  - "1610"   # Desdobramento de madeira
+  - "1721"   # Fabricação de papel
+  - "2011"   # Cloro e álcalis (commodity intensiva)
+  - "2071"   # Tintas
+  - "2110"   # Produtos farmoquímicos
+  - "2121"   # Medicamentos
+  - "2310"   # Fabricação de vidro
+  - "2391"   # Aparelhamento de pedras
+  - "2392"   # Fabricação de cal
+  - "2421"   # Siderúrgica
+  - "2422"   # Tubos de aço sem costura
+  - "2451"   # Fundição
+  - "2511"   # Estruturas metálicas
+  - "2521"   # Tanques industriais
+  - "2611"   # Componentes eletrônicos
+  - "2710"   # Geradores
+  - "2741"   # Lâmpadas
+  - "2814"   # Máquinas industriais
+  - "2829"   # Máquinas-ferramenta
+  - "2911"   # Automóveis
+  - "2941"   # Peças automotivas
+  - "3030"   # Material ferroviário
+  - "6311"   # Tratamento de dados (data centers)
+
+cnaes_media_afinidade:
+  - "1031"   # Conservas de frutas
+  - "1091"   # Panificação
+  - "1411"   # Confecção
+  - "1531"   # Calçados
+  - "1610"   # Madeira
+  - "2091"   # Adesivos
+  - "2092"   # Explosivos
+  - "2811"   # Motores
+  - "2722"   # Pilhas e baterias
+  - "4661"   # Comércio atacadista de máquinas agrícolas
+  - "4673"   # Comércio atacadista de material de construção
+  - "4711"   # Hipermercados e supermercados
+  - "5611"   # Restaurantes
+  - "5510"   # Hotéis (grandes redes)
+  - "8610"   # Atendimento hospitalar (grandes hospitais)
+  - "9311"   # Estádios e ginásios
+
+faturamento_minimo_brl: 30000000        # R$ 30M (consumo energético justifica)
+faturamento_ideal_brl: 200000000        # R$ 200M
+faturamento_maximo_brl: 1000000000      # R$ 1B
+numero_funcionarios_minimo: 50
+
+gatilhos:
+  - id: "conta_luz_alta"
+    descricao: "Empresa tem conta de energia elétrica acima de R$ 100 mil/mês (sinal de demanda > 500 kW)"
+    keywords:
+      - "conta de luz"
+      - "energia elétrica"
+      - "fatura de energia"
+      - "consumo elétrico"
+      - "demanda contratada"
+      - "energy bill"
+      - "kWh"
+    fontes_deteccao: ["website", "linkedin_post"]
+    peso: 0.30
+
+  - id: "preocupacao_custo_energetico"
+    descricao: "Decisor ou empresa menciona preocupação com custo de energia ou eficiência energética"
+    keywords:
+      - "custo de energia"
+      - "redução de custo"
+      - "eficiência energética"
+      - "energy efficiency"
+      - "tarifa de energia"
+      - "bandeira tarifária"
+      - "reajuste de energia"
+    fontes_deteccao: ["linkedin_post", "noticia"]
+    peso: 0.25
+
+  - id: "compromisso_esg_renovavel"
+    descricao: "Empresa tem compromissos ESG, metas de descarbonização ou interesse em energia renovável"
+    keywords:
+      - "ESG"
+      - "sustentabilidade"
+      - "descarbonização"
+      - "energia limpa"
+      - "energia renovável"
+      - "net zero"
+      - "carbon neutral"
+      - "solar"
+      - "eólica"
+    fontes_deteccao: ["website", "linkedin_post", "noticia"]
+    peso: 0.20
+
+  - id: "expansao_industrial"
+    descricao: "Empresa em expansão industrial (nova planta, ampliação) aumentando demanda energética"
+    keywords:
+      - "nova planta"
+      - "ampliação fabril"
+      - "expansão industrial"
+      - "nova unidade industrial"
+      - "industrial expansion"
+      - "new facility"
+    fontes_deteccao: ["noticia", "linkedin_post"]
+    peso: 0.15
+
+  - id: "migracao_mercado_livre"
+    descricao: "Empresa demonstra interesse explícito ou já está em processo de migração para MLE"
+    keywords:
+      - "mercado livre de energia"
+      - "MLE"
+      - "ACL"
+      - "ambiente de contratação livre"
+      - "comercializadora"
+      - "PPA"
+      - "power purchase agreement"
+    fontes_deteccao: ["website", "linkedin_post", "noticia"]
+    peso: 0.10
+
+sub_personas:
+  - id: "industria_intensiva_energia"
+    descricao: "Indústria de processamento com altíssimo consumo energético"
+    indicadores_cnae: ["2011", "2310", "2421", "2422", "2451", "1071", "1311", "1721"]
+    foco_produto: "MLE com contrato longo prazo + hedge de preço de energia"
+
+  - id: "industria_media_demanda"
+    descricao: "Indústria de médio porte com demanda contratada 500kW-2MW"
+    indicadores_cnae: ["1011", "1041", "1052", "2071", "2110", "2814", "2829", "2911", "2941"]
+    foco_produto: "migração gradual para MLE com economia estimada"
+
+  - id: "grande_consumidor_comercial"
+    descricao: "Grande consumidor comercial (hospital, hotel, shopping, supermercado, data center)"
+    indicadores_cnae: ["4711", "5510", "5611", "6311", "8610"]
+    foco_produto: "MLE com flexibilidade horária de consumo"
+
+  - id: "operacao_multi_site"
+    descricao: "Empresa com múltiplas unidades industriais ou comerciais (varejo, redes)"
+    indicadores_cnae: ["4711", "4781", "4789", "4751"]
+    foco_produto: "MLE consolidado para todas as unidades"
+
+criterios_desqualificadores:
+  - tipo: "faturamento_abaixo_minimo"
+    razao: "Empresas <R$ 30M raramente têm consumo que justifica MLE"
+
+  - tipo: "headcount_abaixo_minimo"
+    razao: "Operação muito pequena, provável conta de luz <R$ 50k"
+
+  - tipo: "setor_excluido"
+    cnaes: ["8411", "8412", "8413", "8414", "8421", "8422", "8423", "8424", "8425", "8430"]
+    razao: "Setor público tem regras próprias de licitação de energia"
+
+criterios_obrigatorios_externos:
+  - campo: "conta_luz_acima_3k"
+    razao: "Sem comprovação de consumo mínimo, MLE não se justifica"
+
+cross_sell_candidatos:
+  - geracao_distribuida
+  - capital_giro
+  - cambio_spot
+
+gatilhos_escalada_3_frentes:
+  investment_banking:
+    - "Demanda contratada > 5MW (candidato a estruturação de PPA de longo prazo)"
+    - "Empresa com necessidade de financiamento de geração própria"

@@ -1,0 +1,165 @@
+produto: "capital_giro"
+nome_completo: "Capital de Giro"
+parceiros: ["BTG Pactual", "SB Crédito"]
+versao: "1.0"
+data_criacao: "2026-05-27"
+
+cnaes_alta_afinidade:
+  - "4711"   # Comércio varejista de mercadorias
+  - "4712"   # Comércio varejista de mercadorias com predominância em alimentos
+  - "4721"   # Comércio varejista de produtos de panificação
+  - "4729"   # Comércio varejista de produtos alimentícios
+  - "4751"   # Comércio varejista de informática
+  - "4754"   # Comércio varejista de móveis
+  - "4755"   # Comércio varejista de tecidos
+  - "4759"   # Comércio varejista de outros equipamentos
+  - "4761"   # Comércio varejista de livros
+  - "4763"   # Comércio varejista de artigos esportivos
+  - "4771"   # Comércio varejista de produtos farmacêuticos
+  - "4781"   # Comércio varejista de artigos do vestuário
+  - "4789"   # Comércio varejista de outros produtos
+  - "4611"   # Representantes comerciais
+  - "4632"   # Comércio atacadista de produtos alimentícios
+  - "4661"   # Comércio atacadista de máquinas agrícolas
+  - "4662"   # Comércio atacadista de máquinas industriais
+  - "4673"   # Comércio atacadista de material de construção
+  - "2814"   # Fabricação de máquinas industriais
+  - "2511"   # Fabricação de estruturas metálicas
+  - "1411"   # Confecção de peças do vestuário
+  - "1091"   # Panificação industrial
+  - "1052"   # Fabricação de laticínios
+
+cnaes_media_afinidade:
+  - "4120"   # Construção de edifícios
+  - "4211"   # Construção de rodovias
+  - "4221"   # Construção de redes
+  - "4292"   # Montagem de instalações industriais
+  - "4322"   # Instalações hidráulicas
+  - "4399"   # Outros serviços especializados
+  - "5611"   # Restaurantes
+  - "5620"   # Serviços de alimentação
+  - "6201"   # Desenvolvimento de software
+  - "6311"   # Tratamento de dados
+  - "7020"   # Consultoria empresarial
+  - "7311"   # Agências de publicidade
+  - "7711"   # Locação de automóveis
+  - "8211"   # Serviços de apoio administrativo
+  - "8230"   # Organização de eventos
+  - "8610"   # Atendimento hospitalar
+  - "8630"   # Atenção ambulatorial
+  - "9601"   # Lavanderias
+  - "9602"   # Cabeleireiros
+
+faturamento_minimo_brl: 5000000         # R$ 5M
+faturamento_ideal_brl: 40000000         # R$ 40M
+faturamento_maximo_brl: 200000000       # R$ 200M
+numero_funcionarios_minimo: 15
+
+gatilhos:
+  - id: "expansao_operacional"
+    descricao: "Empresa em expansão (novas lojas, filiais, capacidade produtiva)"
+    keywords:
+      - "abrindo nova loja"
+      - "nova filial"
+      - "nova unidade"
+      - "expansão"
+      - "aumentar capacidade"
+      - "new branch"
+      - "new store"
+      - "inaugurar"
+    fontes_deteccao: ["website", "linkedin_post", "noticia"]
+    peso: 0.25
+
+  - id: "sazonalidade_demanda"
+    descricao: "Empresa tem sazonalidade clara (estoque para Black Friday, safra, alta temporada)"
+    keywords:
+      - "Black Friday"
+      - "Natal"
+      - "safra"
+      - "alta temporada"
+      - "seasonality"
+      - "pico de vendas"
+      - "estoque para"
+    fontes_deteccao: ["website", "linkedin_post"]
+    peso: 0.20
+
+  - id: "investimento_ativo_imobilizado"
+    descricao: "Empresa investiu ou planeja investir em maquinário, equipamentos ou imóveis"
+    keywords:
+      - "investimento em maquinário"
+      - "compra de equipamento"
+      - "nova máquina"
+      - "modernização da planta"
+      - "novo galpão"
+      - "capex"
+      - "investment plan"
+    fontes_deteccao: ["linkedin_post", "noticia"]
+    peso: 0.20
+
+  - id: "crescimento_estoque"
+    descricao: "Empresa precisa de capital para giro de estoque ou aumento de pedidos"
+    keywords:
+      - "aumento de pedidos"
+      - "demanda crescente"
+      - "estoque maior"
+      - "compra antecipada"
+      - "inventory increase"
+      - "stock up"
+    fontes_deteccao: ["linkedin_post", "website"]
+    peso: 0.20
+
+  - id: "renegociacao_divida"
+    descricao: "Decisor menciona necessidade de renegociar dívida ou substituir crédito caro"
+    keywords:
+      - "renegociar"
+      - "trocar de banco"
+      - "taxa abusiva"
+      - "spread alto"
+      - "consolidar dívida"
+      - "refinance"
+      - "debt restructuring"
+    fontes_deteccao: ["linkedin_post"]
+    peso: 0.15
+
+sub_personas:
+  - id: "varejo_em_expansao"
+    descricao: "Varejista expandindo lojas físicas ou e-commerce com necessidade sazonal de estoque"
+    indicadores_cnae: ["4711", "4712", "4751", "4754", "4755", "4759", "4761", "4763", "4771", "4781", "4789"]
+    foco_produto: "linha rotativa BTG, taxas competitivas"
+
+  - id: "atacadista_distribuidor"
+    descricao: "Atacadista com prazo de recebimento longo precisando girar estoque"
+    indicadores_cnae: ["4611", "4632", "4661", "4662", "4673"]
+    foco_produto: "combinar capital de giro + antecipação de recebíveis"
+
+  - id: "industria_pme"
+    descricao: "Indústria de pequeno e médio porte com necessidade de capex ou capital operacional"
+    indicadores_cnae: ["1091", "1052", "1411", "2511", "2814"]
+    foco_produto: "linha BNDES via BTG ou capital próprio SB Crédito"
+
+  - id: "servicos_b2b"
+    descricao: "Prestador de serviços B2B com descasamento entre custos fixos e recebimentos"
+    indicadores_cnae: ["6201", "7020", "7311", "8211", "8230"]
+    foco_produto: "linha pré-aprovada com base em recebíveis recorrentes"
+
+criterios_desqualificadores:
+  - tipo: "faturamento_abaixo_minimo"
+    razao: "BTG e SB Crédito não operam abaixo de R$ 5M"
+
+  - tipo: "headcount_abaixo_minimo"
+    razao: "Estrutura pequena demais para análise de crédito"
+
+  - tipo: "setor_excluido"
+    cnaes: ["8411", "8412", "8413", "8414", "8421", "8422", "8423", "8424", "8425", "8430"]
+    razao: "Setor público não é ICP"
+
+cross_sell_candidatos:
+  - antecipacao_recebiveis
+  - cambio_spot
+  - folha_pagamento
+
+gatilhos_escalada_3_frentes:
+  investment_banking:
+    - "Necessidade acima de R$ 30M com perfil de dívida estruturada"
+  wealth_management:
+    - "Empresa familiar com sócio buscando organização patrimonial"

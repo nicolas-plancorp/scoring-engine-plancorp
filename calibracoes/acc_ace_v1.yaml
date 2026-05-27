@@ -1,0 +1,164 @@
+produto: "acc_ace"
+nome_completo: "ACC/ACE (Adiantamento sobre Contrato de Câmbio)"
+parceiro: "BTG Pactual"
+versao: "1.0"
+data_criacao: "2026-05-27"
+
+cnaes_alta_afinidade:
+  - "0115"   # Cultivo de soja (exportadora)
+  - "0113"   # Cultivo de cana
+  - "0131"   # Cultivo de café
+  - "0111"   # Cultivo de cereais
+  - "0210"   # Produção florestal
+  - "1071"   # Fabricação de açúcar (exportadora)
+  - "1041"   # Fabricação de óleos vegetais
+  - "1011"   # Frigoríficos
+  - "1013"   # Carne e derivados
+  - "1052"   # Laticínios
+  - "1093"   # Fabricação de chocolate
+  - "1311"   # Fiação de algodão
+  - "1411"   # Confecção de roupas
+  - "1531"   # Fabricação de calçados
+  - "2011"   # Cloro e álcalis
+  - "2071"   # Tintas
+  - "2110"   # Produtos farmoquímicos
+  - "2121"   # Medicamentos
+  - "2511"   # Estruturas metálicas
+  - "2814"   # Máquinas industriais
+  - "2829"   # Máquinas-ferramenta
+  - "2911"   # Automóveis
+  - "3041"   # Aeronaves
+  - "3091"   # Motocicletas
+  - "4684"   # Atacadista de produtos químicos
+  - "4685"   # Atacadista de produtos siderúrgicos
+  - "6201"   # Software (export de serviços)
+
+cnaes_media_afinidade:
+  - "0121"   # Frutas
+  - "0114"   # Fumo
+  - "0112"   # Algodão
+  - "1031"   # Conservas de frutas
+  - "1091"   # Panificação industrial
+  - "1610"   # Madeira
+  - "1721"   # Papel
+  - "2092"   # Explosivos
+  - "2521"   # Tanques industriais
+  - "2811"   # Motores
+  - "2722"   # Pilhas e baterias
+  - "3030"   # Material ferroviário
+  - "4661"   # Atacadista de máquinas agrícolas
+  - "4662"   # Atacadista de máquinas industriais
+
+faturamento_minimo_brl: 10000000        # R$ 10M
+faturamento_ideal_brl: 100000000        # R$ 100M
+faturamento_maximo_brl: 300000000       # R$ 300M
+numero_funcionarios_minimo: 30
+
+gatilhos:
+  - id: "exportacao_ativa"
+    descricao: "Empresa exporta ativamente (contratos de venda em moeda estrangeira)"
+    keywords:
+      - "exportação"
+      - "export"
+      - "vendas internacionais"
+      - "exporting to"
+      - "mercado externo"
+      - "international sales"
+      - "embarques"
+    fontes_deteccao: ["website", "linkedin_post", "noticia"]
+    peso: 0.30
+
+  - id: "contrato_exportacao_assinado"
+    descricao: "Empresa fechou contrato de exportação recente com pagamento futuro"
+    keywords:
+      - "contrato fechado"
+      - "novo cliente internacional"
+      - "supply agreement"
+      - "export contract"
+      - "fornecimento internacional"
+      - "deal signed"
+    fontes_deteccao: ["noticia", "linkedin_post"]
+    peso: 0.25
+
+  - id: "expansao_mercados_externos"
+    descricao: "Empresa anunciou entrada ou expansão em mercados internacionais"
+    keywords:
+      - "entrada em mercado"
+      - "novo país"
+      - "abertura de mercado"
+      - "international expansion"
+      - "exporta para"
+      - "new market entry"
+    fontes_deteccao: ["noticia", "linkedin_post", "website"]
+    peso: 0.20
+
+  - id: "ciclo_producao_longo"
+    descricao: "Empresa tem ciclo produtivo longo precisando financiar produção até embarque"
+    keywords:
+      - "ciclo produtivo"
+      - "produção sob encomenda"
+      - "make-to-order"
+      - "lead time"
+      - "embarque em"
+      - "production cycle"
+    fontes_deteccao: ["website", "linkedin_post"]
+    peso: 0.15
+
+  - id: "contratacao_executivo_comex"
+    descricao: "Empresa contratou Diretor de Exportação, Comex ou Comercial Internacional"
+    keywords:
+      - "Diretor de Exportação"
+      - "Gerente Comex"
+      - "Head of Exports"
+      - "International Business"
+      - "Trade Manager"
+    fontes_deteccao: ["linkedin_post", "linkedin_perfil"]
+    peso: 0.10
+
+sub_personas:
+  - id: "agro_exportador"
+    descricao: "Produtor ou trader agrícola com volumes recorrentes de exportação"
+    indicadores_cnae: ["0111", "0113", "0114", "0115", "0121", "0131", "0210", "1071", "1041", "1011", "1013"]
+    foco_produto: "ACC para safra, integração com hedge cambial"
+
+  - id: "industria_exportadora"
+    descricao: "Indústria com produção destinada a mercado externo"
+    indicadores_cnae: ["2011", "2071", "2110", "2121", "2511", "2814", "2829", "2911", "3041", "3091"]
+    foco_produto: "ACC para ciclo produtivo + ACE pós-embarque"
+
+  - id: "trader_atacadista_export"
+    descricao: "Trader ou atacadista que compra no mercado interno e exporta"
+    indicadores_cnae: ["4684", "4685", "4661", "4662"]
+    foco_produto: "ACC com lastro em contratos de exportação"
+
+  - id: "exportador_servicos_tech"
+    descricao: "Empresa de tecnologia exportando software ou serviços (modalidade serviços)"
+    indicadores_cnae: ["6201", "6202", "6203", "6204"]
+    foco_produto: "ACC-Serviços com base em contratos SaaS internacionais"
+
+criterios_desqualificadores:
+  - tipo: "faturamento_abaixo_minimo"
+    razao: "BTG não opera ACC abaixo de R$ 10M de faturamento"
+
+  - tipo: "headcount_abaixo_minimo"
+    razao: "Estrutura pequena demais para operação de comércio exterior"
+
+  - tipo: "setor_excluido"
+    cnaes: ["8411", "8412", "8413", "8414", "8421", "8422", "8423", "8424", "8425", "8430"]
+    razao: "Setor público não é ICP"
+
+# Critério obrigatório externo — deve ser verificado pelo Claude no enriquecimento
+criterios_obrigatorios_externos:
+  - campo: "exportacao_ativa"
+    razao: "Empresa precisa exportar ativamente para usar ACC/ACE"
+
+cross_sell_candidatos:
+  - cambio_spot
+  - hedge_cambial
+  - finimp
+
+gatilhos_escalada_3_frentes:
+  investment_banking:
+    - "Volume anual de exportação > USD 50M (candidato a estruturação de trade finance)"
+  wealth_management:
+    - "Sócio exportador com patrimônio em moeda estrangeira"

@@ -1,0 +1,159 @@
+produto: "finimp"
+nome_completo: "FINIMP (Financiamento à Importação)"
+parceiro: "BTG Pactual"
+versao: "1.0"
+data_criacao: "2026-05-27"
+
+cnaes_alta_afinidade:
+  - "4644"   # Comércio atacadista de medicamentos
+  - "4646"   # Comércio atacadista de cosméticos
+  - "4647"   # Comércio atacadista de artigos de escritório
+  - "4649"   # Comércio atacadista de equipamentos
+  - "4652"   # Comércio atacadista de componentes eletrônicos
+  - "4661"   # Comércio atacadista de máquinas agrícolas
+  - "4662"   # Comércio atacadista de máquinas industriais
+  - "4664"   # Comércio atacadista de máquinas para construção
+  - "4665"   # Comércio atacadista de máquinas para escritório
+  - "4669"   # Comércio atacadista de outras máquinas
+  - "4672"   # Comércio atacadista de ferragens
+  - "4684"   # Comércio atacadista de produtos químicos
+  - "4685"   # Comércio atacadista de produtos siderúrgicos
+  - "2110"   # Fabricação de produtos farmoquímicos
+  - "2121"   # Fabricação de medicamentos
+  - "2611"   # Fabricação de componentes eletrônicos
+  - "2710"   # Fabricação de geradores
+  - "2814"   # Fabricação de máquinas industriais
+  - "2829"   # Fabricação de máquinas-ferramenta
+  - "2911"   # Fabricação de automóveis
+  - "2941"   # Fabricação de peças e acessórios
+  - "3041"   # Fabricação de aeronaves
+  - "6201"   # Desenvolvimento de software (importa licenças)
+  - "4774"   # Comércio varejista de artigos médicos
+  - "4789"   # Comércio varejista de outros produtos
+
+cnaes_media_afinidade:
+  - "1411"   # Confecção
+  - "1531"   # Calçados
+  - "2011"   # Cloro e álcalis
+  - "2071"   # Tintas
+  - "2091"   # Adesivos
+  - "2511"   # Estruturas metálicas
+  - "2521"   # Tanques industriais
+  - "2811"   # Motores
+  - "4622"   # Comércio atacadista de soja
+  - "4691"   # Comércio atacadista de mercadorias em geral
+  - "4751"   # Comércio varejista de informática
+  - "4754"   # Comércio varejista de móveis
+
+faturamento_minimo_brl: 20000000        # R$ 20M (BTG)
+faturamento_ideal_brl: 150000000        # R$ 150M
+faturamento_maximo_brl: 500000000
+numero_funcionarios_minimo: 30
+
+gatilhos:
+  - id: "importacao_recorrente"
+    descricao: "Empresa importa insumos, produtos acabados ou equipamentos regularmente"
+    keywords:
+      - "importação"
+      - "import"
+      - "insumos importados"
+      - "matéria-prima do exterior"
+      - "fornecedor internacional"
+      - "shipment from"
+      - "importer"
+    fontes_deteccao: ["website", "linkedin_post", "noticia"]
+    peso: 0.30
+
+  - id: "compra_equipamento_importado"
+    descricao: "Empresa anunciou ou planeja compra de maquinário ou equipamento importado"
+    keywords:
+      - "máquina alemã"
+      - "equipamento importado"
+      - "imported equipment"
+      - "compra de maquinário"
+      - "modernização da planta"
+      - "machine purchase"
+    fontes_deteccao: ["noticia", "linkedin_post"]
+    peso: 0.25
+
+  - id: "prazo_pagamento_fornecedor_curto"
+    descricao: "Fornecedor exterior exige pagamento à vista ou prazo curto (precisa de financiamento)"
+    keywords:
+      - "pagamento antecipado"
+      - "advance payment"
+      - "L/C at sight"
+      - "T/T 30 days"
+      - "pré-pagamento"
+      - "à vista"
+    fontes_deteccao: ["linkedin_post", "noticia"]
+    peso: 0.20
+
+  - id: "expansao_capacidade_produtiva"
+    descricao: "Empresa em expansão de capacidade produtiva ou nova linha de produto"
+    keywords:
+      - "nova linha de produção"
+      - "ampliar capacidade"
+      - "nova planta"
+      - "production expansion"
+      - "expansão fabril"
+      - "new production line"
+    fontes_deteccao: ["noticia", "linkedin_post", "website"]
+    peso: 0.15
+
+  - id: "contratacao_executivo_compras"
+    descricao: "Empresa contratou Diretor de Compras, Supply Chain ou Comex novo"
+    keywords:
+      - "Diretor de Compras"
+      - "Head of Procurement"
+      - "Supply Chain Director"
+      - "Gerente de Importação"
+      - "Trade Manager"
+    fontes_deteccao: ["linkedin_post", "linkedin_perfil"]
+    peso: 0.10
+
+sub_personas:
+  - id: "importador_industrial_insumos"
+    descricao: "Indústria importando matéria-prima ou insumos recorrentes"
+    indicadores_cnae: ["2011", "2071", "2091", "2110", "2121", "2511", "2811", "2814", "2829", "2911"]
+    foco_produto: "FINIMP de longo prazo com cronograma de pagamentos"
+
+  - id: "atacadista_importador"
+    descricao: "Atacadista importando produtos acabados para revenda"
+    indicadores_cnae: ["4644", "4646", "4647", "4649", "4652", "4661", "4662", "4664", "4665", "4669", "4672", "4684", "4685"]
+    foco_produto: "FINIMP de curto prazo (90-180 dias) com lastro em estoque"
+
+  - id: "industria_maquinario"
+    descricao: "Indústria importando maquinário ou equipamento de capital"
+    indicadores_cnae: ["2814", "2829", "2611", "2710", "2941", "3041"]
+    foco_produto: "FINIMP de longo prazo (até 5 anos) com base em capex"
+
+  - id: "tech_licencas_internacionais"
+    descricao: "Empresa de tecnologia com importação de licenças e equipamentos"
+    indicadores_cnae: ["6201", "6202", "6203", "4751"]
+    foco_produto: "FINIMP-Serviços para licenças de software estrangeiras"
+
+criterios_desqualificadores:
+  - tipo: "faturamento_abaixo_minimo"
+    razao: "BTG não opera FINIMP abaixo de R$ 20M"
+
+  - tipo: "headcount_abaixo_minimo"
+    razao: "Estrutura pequena demais para análise de FINIMP"
+
+  - tipo: "setor_excluido"
+    cnaes: ["8411", "8412", "8413", "8414", "8421", "8422", "8423", "8424", "8425", "8430"]
+    razao: "Setor público não é ICP"
+
+criterios_obrigatorios_externos:
+  - campo: "importacao_ativa"
+    razao: "Empresa precisa importar ativamente para usar FINIMP"
+
+cross_sell_candidatos:
+  - cambio_spot
+  - hedge_cambial
+  - capital_giro
+
+gatilhos_escalada_3_frentes:
+  investment_banking:
+    - "Volume anual de importação > USD 30M (estruturação de trade finance custom)"
+  wealth_management:
+    - "Empresa familiar com sócio expondo patrimônio em operações de importação"

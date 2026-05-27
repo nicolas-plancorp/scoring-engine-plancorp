@@ -1,0 +1,169 @@
+produto: "antecipacao_recebiveis"
+nome_completo: "Antecipação de Recebíveis"
+parceiros: ["BTG Pactual", "SB Crédito"]
+versao: "1.0"
+data_criacao: "2026-05-27"
+
+cnaes_alta_afinidade:
+  - "4611"   # Representantes comerciais
+  - "4632"   # Comércio atacadista de produtos alimentícios
+  - "4635"   # Comércio atacadista de bebidas
+  - "4639"   # Comércio atacadista de produtos alimentícios em geral
+  - "4644"   # Comércio atacadista de medicamentos
+  - "4646"   # Comércio atacadista de cosméticos
+  - "4647"   # Comércio atacadista de artigos de escritório
+  - "4649"   # Comércio atacadista de equipamentos
+  - "4661"   # Comércio atacadista de máquinas agrícolas
+  - "4662"   # Comércio atacadista de máquinas industriais
+  - "4672"   # Comércio atacadista de ferragens
+  - "4673"   # Comércio atacadista de material de construção
+  - "4679"   # Comércio atacadista especializado
+  - "4684"   # Comércio atacadista de produtos químicos
+  - "4685"   # Comércio atacadista de produtos siderúrgicos
+  - "0111"   # Cultivo de cereais
+  - "0113"   # Cultivo de cana
+  - "0115"   # Cultivo de soja
+  - "0121"   # Cultivo de frutas
+  - "0131"   # Cultivo de café
+  - "2814"   # Fabricação de máquinas industriais
+  - "2829"   # Fabricação de máquinas-ferramenta
+  - "8610"   # Atividades de atendimento hospitalar
+  - "8630"   # Atividades de atenção ambulatorial
+  - "8650"   # Atividades de profissionais da saúde
+
+cnaes_media_afinidade:
+  - "1011"   # Frigoríficos
+  - "1071"   # Fabricação de açúcar
+  - "1091"   # Panificação industrial
+  - "1411"   # Confecção
+  - "2071"   # Fabricação de tintas
+  - "2110"   # Produtos farmoquímicos
+  - "2121"   # Medicamentos
+  - "2511"   # Estruturas metálicas
+  - "4711"   # Comércio varejista de mercadorias
+  - "4751"   # Comércio varejista de informática
+  - "4781"   # Comércio varejista de artigos do vestuário
+  - "6201"   # Desenvolvimento de software
+  - "7020"   # Consultoria empresarial
+  - "8211"   # Serviços de apoio administrativo
+  - "8230"   # Atividades de organização de eventos
+
+faturamento_minimo_brl: 5000000         # R$ 5M (mínimo BTG/SB)
+faturamento_ideal_brl: 50000000         # R$ 50M
+faturamento_maximo_brl: 200000000       # R$ 200M (acima vira FIDC)
+numero_funcionarios_minimo: 15
+
+gatilhos:
+  - id: "crescimento_receita_acelerado"
+    descricao: "Empresa em crescimento de receita relevante (>20% YoY) — pressão de capital de giro"
+    keywords:
+      - "crescimento"
+      - "expansão"
+      - "aumento de receita"
+      - "growth"
+      - "faturamento cresceu"
+      - "expandindo operação"
+      - "abrindo loja"
+      - "novo mercado"
+    fontes_deteccao: ["website", "linkedin_post", "noticia"]
+    peso: 0.25
+
+  - id: "prazo_recebimento_longo"
+    descricao: "Empresa vende B2B com prazo de recebimento longo (60-120 dias)"
+    keywords:
+      - "prazo de pagamento"
+      - "B2B"
+      - "venda corporativa"
+      - "duplicata"
+      - "boleto a prazo"
+      - "carteira de recebíveis"
+      - "60 dias"
+      - "90 dias"
+    fontes_deteccao: ["website", "linkedin_post"]
+    peso: 0.25
+
+  - id: "cliente_grande_porte"
+    descricao: "Empresa vende para grandes clientes (empresas âncora, varejistas, governo) com prazos longos"
+    keywords:
+      - "cliente âncora"
+      - "grandes empresas"
+      - "varejo nacional"
+      - "Magazine Luiza"
+      - "Mercado Livre"
+      - "Carrefour"
+      - "Casas Bahia"
+      - "rede nacional"
+      - "fornecedor de governo"
+    fontes_deteccao: ["website", "linkedin_post", "noticia"]
+    peso: 0.20
+
+  - id: "captacao_recente_capital"
+    descricao: "Empresa captou capital recentemente ou está em rodada de funding"
+    keywords:
+      - "captação"
+      - "rodada de investimento"
+      - "Series A"
+      - "Series B"
+      - "investimento de"
+      - "aporte de"
+      - "raised"
+      - "funding round"
+    fontes_deteccao: ["noticia", "linkedin_post"]
+    peso: 0.15
+
+  - id: "pressao_fluxo_caixa"
+    descricao: "Decisor menciona pressão de fluxo de caixa, descasamento ou necessidade de capital"
+    keywords:
+      - "fluxo de caixa"
+      - "descasamento"
+      - "capital de giro"
+      - "working capital"
+      - "cash flow"
+      - "necessidade de capital"
+    fontes_deteccao: ["linkedin_post", "linkedin_perfil"]
+    peso: 0.15
+
+sub_personas:
+  - id: "distribuidor_b2b"
+    descricao: "Distribuidor atacadista vendendo para varejo grande com prazo de 60-90 dias"
+    indicadores_cnae: ["4611", "4632", "4635", "4639", "4644", "4646", "4647", "4649", "4661", "4662", "4672", "4673", "4679", "4684", "4685"]
+    foco_produto: "comparação BTG vs SB Crédito, melhor taxa para volume alto"
+
+  - id: "produtor_rural"
+    descricao: "Produtor rural com CPR ou contrato de venda futura"
+    indicadores_cnae: ["0111", "0112", "0113", "0114", "0115", "0121", "0131", "0210"]
+    foco_produto: "modalidade Agro SB Crédito, antecipação de CPR"
+
+  - id: "prestador_grandes_contas"
+    descricao: "Prestador de serviço vendendo para empresa âncora, paga em 90+ dias"
+    indicadores_cnae: ["6201", "6202", "6204", "7020", "7110", "7112"]
+    foco_produto: "Boleto Especial ou Comissária SB Crédito"
+
+  - id: "clinica_servicos_saude"
+    descricao: "Clínica ou prestador de saúde com recebíveis de convênios"
+    indicadores_cnae: ["8610", "8630", "8650"]
+    foco_produto: "antecipação de recebíveis de convênios médicos"
+
+criterios_desqualificadores:
+  - tipo: "faturamento_abaixo_minimo"
+    razao: "BTG e SB Crédito não operam com empresas <R$ 5M"
+
+  - tipo: "headcount_abaixo_minimo"
+    razao: "Estrutura muito pequena para gestão de carteira de recebíveis"
+
+  - tipo: "setor_excluido"
+    cnaes: ["8411", "8412", "8413", "8414", "8421", "8422", "8423", "8424", "8425", "8430"]
+    razao: "Setor público não é ICP da Plancorp"
+
+cross_sell_candidatos:
+  - capital_giro
+  - cambio_spot
+  - hedge_cambial
+
+gatilhos_escalada_3_frentes:
+  investment_banking:
+    - "Volume anual de recebíveis > R$ 30M (candidato a FIDC proprietário PCI)"
+    - "Menção a captação de dívida estruturada"
+  wealth_management:
+    - "Operação familiar, segunda/terceira geração"
+    - "Sócio com perfil de family office"

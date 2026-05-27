@@ -1,0 +1,151 @@
+produto: "hedge_cambial"
+nome_completo: "Hedge Cambial (NDF / Forward)"
+parceiro: "Ebury Bank"
+versao: "1.0"
+data_criacao: "2026-05-27"
+
+cnaes_alta_afinidade:
+  - "1071"   # Fabricação e refino de açúcar (commodity exportada)
+  - "1041"   # Fabricação de óleos vegetais
+  - "1091"   # Fabricação de produtos de panificação industrial
+  - "0111"   # Cultivo de cereais
+  - "0112"   # Cultivo de algodão
+  - "0113"   # Cultivo de cana
+  - "0114"   # Cultivo de fumo
+  - "0115"   # Cultivo de soja
+  - "0121"   # Cultivo de frutas
+  - "0131"   # Cultivo de café
+  - "0210"   # Produção florestal
+  - "4632"   # Comércio atacadista de produtos alimentícios
+  - "4661"   # Comércio atacadista de máquinas agrícolas
+  - "4662"   # Comércio atacadista de máquinas industriais
+  - "4684"   # Comércio atacadista de produtos químicos
+  - "4685"   # Comércio atacadista de produtos siderúrgicos
+  - "2110"   # Fabricação de produtos farmoquímicos
+  - "2121"   # Fabricação de medicamentos
+  - "2814"   # Fabricação de máquinas
+  - "2911"   # Fabricação de automóveis
+  - "6201"   # Desenvolvimento de software
+  - "6203"   # Software não-customizável
+  - "7110"   # Serviços de engenharia
+
+cnaes_media_afinidade:
+  - "1011"   # Frigoríficos - abate de bovinos
+  - "1012"   # Frigoríficos - abate de suínos
+  - "1013"   # Carne e derivados
+  - "1052"   # Fabricação de laticínios
+  - "1311"   # Preparação e fiação de fibras
+  - "1411"   # Confecção de roupas íntimas
+  - "1531"   # Fabricação de calçados
+  - "2011"   # Fabricação de cloro e álcalis
+  - "2071"   # Fabricação de tintas
+  - "2092"   # Fabricação de explosivos
+  - "2511"   # Estruturas metálicas
+  - "2829"   # Máquinas-ferramenta
+  - "3041"   # Fabricação de aeronaves
+  - "6311"   # Tratamento de dados
+  - "7020"   # Consultoria empresarial
+
+faturamento_minimo_brl: 20000000        # R$ 20M — exposição mínima USD 200k/mês
+faturamento_ideal_brl: 150000000        # R$ 150M
+faturamento_maximo_brl: 500000000
+numero_funcionarios_minimo: 30
+
+gatilhos:
+  - id: "exposicao_cambial_recorrente"
+    descricao: "Empresa tem exposição cambial recorrente em receita ou custos (acima USD 200k/mês)"
+    keywords:
+      - "exposição cambial"
+      - "FX exposure"
+      - "currency exposure"
+      - "operação cambial"
+      - "volume USD"
+      - "volume cambial"
+    fontes_deteccao: ["website", "linkedin_post", "noticia"]
+    peso: 0.25
+
+  - id: "perda_cambial_anterior"
+    descricao: "Decisor menciona perda cambial em operação anterior ou preocupação com volatilidade"
+    keywords:
+      - "perda cambial"
+      - "FX loss"
+      - "currency loss"
+      - "volatilidade cambial"
+      - "USD subiu"
+      - "dólar disparou"
+      - "câmbio nos pegou"
+    fontes_deteccao: ["linkedin_post", "linkedin_perfil"]
+    peso: 0.25
+
+  - id: "contrato_importacao_exportacao_longo_prazo"
+    descricao: "Empresa fechou contrato de importação ou exportação com prazo de pagamento longo (30-360 dias)"
+    keywords:
+      - "contrato de importação"
+      - "contrato de exportação"
+      - "fornecedor estratégico"
+      - "long-term contract"
+      - "supply agreement"
+      - "import contract"
+    fontes_deteccao: ["noticia", "linkedin_post"]
+    peso: 0.20
+
+  - id: "captacao_dolar"
+    descricao: "Empresa captou recursos em dólar (dívida ou equity), gerando exposição futura"
+    keywords:
+      - "captação em dólar"
+      - "dívida em USD"
+      - "bond emission"
+      - "investimento estrangeiro"
+      - "foreign investment"
+      - "rodada Series"
+    fontes_deteccao: ["noticia", "linkedin_post"]
+    peso: 0.15
+
+  - id: "contratacao_executivo_financeiro"
+    descricao: "Empresa contratou recentemente CFO, Tesoureiro ou Diretor Financeiro novo"
+    keywords:
+      - "novo CFO"
+      - "new CFO"
+      - "novo tesoureiro"
+      - "novo diretor financeiro"
+      - "joined as treasurer"
+    fontes_deteccao: ["linkedin_post", "linkedin_perfil"]
+    peso: 0.15
+
+sub_personas:
+  - id: "cfo_queimado"
+    descricao: "Já teve perda cambial relevante em operação sem hedge. Alta receptividade, possível trauma com complexidade."
+    indicadores_cnae: ["1071", "1041", "4632", "4684", "2814", "2911"]
+    foco_produto: "simplificar a explicação, mostrar mecânica do NDF"
+
+  - id: "tesoureiro_tecnico"
+    descricao: "Conhece hedge mas opera no banco atual com condições inferiores"
+    indicadores_cnae: ["6201", "6202", "6203", "2121", "3041"]
+    foco_produto: "spread e pricing competitivo + integração com câmbio spot"
+
+  - id: "importador_sem_estrutura"
+    descricao: "Sabe que deveria fazer hedge mas nunca tem tempo nem estrutura de tesouraria"
+    indicadores_cnae: ["4611", "4632", "4635", "4639", "4661", "4662", "4684"]
+    foco_produto: "simplificar processo, Plancorp como advisor"
+
+criterios_desqualificadores:
+  - tipo: "faturamento_abaixo_minimo"
+    razao: "Volume cambial não justifica estrutura de hedge para empresas <R$ 20M"
+
+  - tipo: "headcount_abaixo_minimo"
+    razao: "Empresa pequena demais para sustentar tesouraria com hedge"
+
+  - tipo: "setor_excluido"
+    cnaes: ["8411", "8412", "8413", "8414", "8421", "8422", "8423", "8424", "8425", "8430"]
+    razao: "Setor público não é ICP da Plancorp"
+
+cross_sell_candidatos:
+  - cambio_spot
+  - acc_ace
+  - finimp
+
+gatilhos_escalada_3_frentes:
+  investment_banking:
+    - "Volume anual de hedge acima de USD 30M (candidato a estrutura derivativa custom)"
+  wealth_management:
+    - "Sócio com patrimônio em moeda estrangeira não-hedgado"
