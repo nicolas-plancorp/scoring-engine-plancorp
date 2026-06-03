@@ -123,41 +123,39 @@ def calcular():
     calibragem = _CALIBRACOES_CACHE[produto]
 
     # Montar DadosFirmograficos
-    firm_data = body.get("firmografico", {})
-if not firm_data:
-    empresa = body.get("empresa", {})
-    firm_data = {
-        "numero_funcionarios": empresa.get("funcionarios"),
-        "faturamento_estimado_brl": empresa.get("faturamento"),
-        "estado": empresa.get("cidade"),
-        "cnae_primario": None,
-        "headcount_anterior": None,
-        "decisor_linkedin_post_dias": None,
-        "decisor_novo_cargo_dias": None
-    }
-    firmografico = DadosFirmograficos(
-        cnae_primario=firm_data.get("cnae_primario"),
-        faturamento_estimado_brl=firm_data.get("faturamento_estimado_brl"),
-        numero_funcionarios=firm_data.get("numero_funcionarios"),
-        estado=firm_data.get("estado"),
-        headcount_anterior=firm_data.get("headcount_anterior"),
-        decisor_linkedin_post_dias=firm_data.get("decisor_linkedin_post_dias"),
-        decisor_novo_cargo_dias=firm_data.get("decisor_novo_cargo_dias"),
-    )
+        firm_data = body.get("firmografico", {})
+        if not firm_data:
+            empresa = body.get("empresa", {})
+            firm_data = {
+                "numero_funcionarios": empresa.get("funcionarios"),
+                "faturamento_estimado_brl": empresa.get("faturamento"),
+                "estado": empresa.get("cidade"),
+                "cnae_primario": None,
+                "headcount_anterior": None,
+                "decisor_linkedin_post_dias": None,
+                "decisor_novo_cargo_dias": None
+            }
+        firmografico = DadosFirmograficos(
+            cnae_primario=firm_data.get("cnae_primario"),
 
-    # Montar lista de GatilhoDetectado
-    gatilhos_detectados = []
-   gatilhos_raw = body.get("gatilhos_detectados", [])
-if isinstance(gatilhos_raw, str):
-    import json as _json
-    try:
-        gatilhos_raw = _json.loads(gatilhos_raw)
-        if isinstance(gatilhos_raw, dict):
-            gatilhos_raw = gatilhos_raw.get("gatilhos_detectados", [])
-    except:
-        gatilhos_raw = []
-for g in gatilhos_raw:
-        gatilhos_detectados.append(GatilhoDetectado(
+        # Montar lista de GatilhoDetectado
+        gatilhos_detectados = []
+        gatilhos_raw = body.get("gatilhos_detectados", [])
+        if isinstance(gatilhos_raw, str):
+            import json as _json
+            try:
+                gatilhos_raw = _json.loads(gatilhos_raw)
+                if isinstance(gatilhos_raw, dict):
+                    gatilhos_raw = gatilhos_raw.get("gatilhos_detectados", [])
+            except:
+                gatilhos_raw = []
+        for g in gatilhos_raw:
+            gatilhos_detectados.append(GatilhoDetectado(
+                gatilho_id=g.get("gatilho_id") or g.get("id"),
+                presente=g.get("presente", False),
+                confidence=g.get("confidence", 0.0),
+                data_evidencia=g.get("data_evidencia"),
+            ))
             gatilho_id=g.get("gatilho_id"),
             presente=g.get("presente", False),
             confidence=g.get("confidence", 0.0),
