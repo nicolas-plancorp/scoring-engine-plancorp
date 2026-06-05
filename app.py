@@ -1,4 +1,4 @@
-﻿"""
+"""
 API HTTP do Scoring Engine — Agente 3 Plancorp
 Expõe o scoring_engine.py via endpoint REST para consumo pelo Make.
 """
@@ -137,8 +137,17 @@ def calcular():
     # Montar lista de GatilhoDetectado
     gatilhos_detectados = []
     gatilhos_raw = body.get("gatilhos_detectados", [])
+    if isinstance(gatilhos_raw, str):
+        import json as _json
+        try:
+            gatilhos_raw = _json.loads(gatilhos_raw)
+            if isinstance(gatilhos_raw, dict):
+                gatilhos_raw = gatilhos_raw.get("gatilhos_detectados", [])
+        except:
+            gatilhos_raw = []
+    for g in gatilhos_raw:
         gatilhos_detectados.append(GatilhoDetectado(
-            gatilho_id=g.get("gatilho_id"),
+            gatilho_id=g.get("gatilho_id") or g.get("id"),
             presente=g.get("presente", False),
             confidence=g.get("confidence", 0.0),
             data_evidencia=g.get("data_evidencia"),
