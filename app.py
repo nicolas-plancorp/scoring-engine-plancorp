@@ -136,7 +136,7 @@ def calcular():
 
     # Montar lista de GatilhoDetectado
     gatilhos_detectados = []
-    for g in body.get("gatilhos_detectados", []):
+    gatilhos_raw = body.get("gatilhos_detectados", [])
         gatilhos_detectados.append(GatilhoDetectado(
             gatilho_id=g.get("gatilho_id"),
             presente=g.get("presente", False),
