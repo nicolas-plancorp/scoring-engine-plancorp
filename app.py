@@ -1,6 +1,6 @@
-"""
-API HTTP do Scoring Engine ? Agente 3 Plancorp
-Exp?e o scoring_engine.py via endpoint REST para consumo pelo Make.
+﻿"""
+API HTTP do Scoring Engine — Agente 3 Plancorp
+Expõe o scoring_engine.py via endpoint REST para consumo pelo Make.
 """
 
 import os
@@ -18,17 +18,17 @@ app = Flask(__name__)
 
 CALIBRACOES_DIR = pathlib.Path(__file__).parent / "calibracoes"
 
-# Cache das calibragens em mem?ria (carregadas no startup)
+# Cache das calibragens em memória (carregadas no startup)
 _CALIBRACOES_CACHE = {}
 
 
 def carregar_calibracoes():
-    """Carrega todos os YAMLs em mem?ria ao iniciar a API."""
+    """Carrega todos os YAMLs em memória ao iniciar a API."""
     for yaml_file in CALIBRACOES_DIR.glob("*.yaml"):
         produto = yaml_file.stem.replace("_v1", "")
         with open(yaml_file, encoding="utf-8") as f:
             _CALIBRACOES_CACHE[produto] = yaml.safe_load(f)
-    print(f"? {len(_CALIBRACOES_CACHE)} calibragens carregadas: {list(_CALIBRACOES_CACHE.keys())}")
+    print(f"✓ {len(_CALIBRACOES_CACHE)} calibragens carregadas: {list(_CALIBRACOES_CACHE.keys())}")
 
 
 carregar_calibracoes()
@@ -46,7 +46,7 @@ def health():
 
 @app.route("/calibragens", methods=["GET"])
 def listar_calibracoes():
-    """Lista as calibragens dispon?veis e seus gatilhos."""
+    """Lista as calibragens disponíveis e seus gatilhos."""
     resumo = {}
     for produto, cal in _CALIBRACOES_CACHE.items():
         resumo[produto] = {
@@ -69,7 +69,7 @@ def obter_calibragem(produto):
     """Retorna a calibragem completa de um produto (usado pelo Make para montar prompt)."""
     if produto not in _CALIBRACOES_CACHE:
         return jsonify({
-            "erro": f"Produto '{produto}' n?o encontrado",
+            "erro": f"Produto '{produto}' não encontrado",
             "produtos_disponiveis": list(_CALIBRACOES_CACHE.keys()),
         }), 404
     return jsonify(_CALIBRACOES_CACHE[produto])
@@ -78,7 +78,7 @@ def obter_calibragem(produto):
 @app.route("/score", methods=["POST"])
 def calcular():
     """
-    Endpoint principal ? calcula score de um lead.
+    Endpoint principal — calcula score de um lead.
 
     Payload esperado:
     {
@@ -108,15 +108,15 @@ def calcular():
     try:
         body = request.get_json(force=True)
     except Exception as e:
-        return jsonify({"erro": f"JSON inv?lido: {e}"}), 400
+        return jsonify({"erro": f"JSON inválido: {e}"}), 400
 
     produto = body.get("produto")
     if not produto:
-        return jsonify({"erro": "Campo 'produto' ? obrigat?rio"}), 400
+        return jsonify({"erro": "Campo 'produto' é obrigatório"}), 400
 
     if produto not in _CALIBRACOES_CACHE:
         return jsonify({
-            "erro": f"Produto '{produto}' n?o tem calibragem",
+            "erro": f"Produto '{produto}' não tem calibragem",
             "produtos_disponiveis": list(_CALIBRACOES_CACHE.keys()),
         }), 404
 
@@ -156,7 +156,7 @@ def calcular():
         )
     except Exception as e:
         return jsonify({
-            "erro": f"Erro no c?lculo: {e}",
+            "erro": f"Erro no cálculo: {e}",
             "tipo": type(e).__name__,
         }), 500
 
